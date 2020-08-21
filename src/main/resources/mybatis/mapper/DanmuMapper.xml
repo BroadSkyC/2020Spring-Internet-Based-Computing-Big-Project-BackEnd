@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.rickymysql.mapper.DanmuMapper">
+    <insert id="insertDanmu" parameterType="com.example.rickymysql.bean.Danmu"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into Danmu(postid,userid,userImg,userName,text,color,likes,timelen)
+        values(#{postid},#{userid},#{userImg},#{userName},#{text},#{color},#{likes},#{time})
+    </insert>
+
+    <select id="getDanmuList" resultMap="Danmu">
+        select * from Danmu where postid=#{postid} order by likes desc
+    </select>
+
+    <select id="getAllDanmu" resultMap="Danmu">
+        select * from Danmu
+    </select>
+
+    <update id="addLike">
+        update Danmu set likes=likes+1
+    </update>
+
+    <select id="getMyDanmuList" resultMap="Danmu">
+        select * from Danmu where userid=#{userid}
+    </select>
+
+    <resultMap id="Danmu" type="com.example.rickymysql.bean.Danmu">
+        <id column="id" property="id"></id>
+        <result column="postid" property="postid"></result>
+        <result column="userid" property="userid"></result>
+        <result column="userImg" property="userImg"></result>
+        <result column="userName" property="userName"></result>
+        <result column="text" property="text"></result>
+        <result column="color" property="color"></result>
+        <result column="likes" property="likes"></result>
+        <result column="timelen" property="time"></result>
+    </resultMap>
+</mapper>

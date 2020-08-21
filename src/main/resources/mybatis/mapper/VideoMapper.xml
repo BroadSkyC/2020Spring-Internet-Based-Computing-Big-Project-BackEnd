@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.rickymysql.mapper.VideoMapper">
+    <insert id="insertVideo" parameterType="com.example.rickymysql.bean.Video"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into Video(userid,createtime,title,coverImg,playNum,commentNum,likes,videoUrl,info,block,subClass)
+        values(#{userid},#{createtime},#{title},#{coverImg},#{playNum},#{commentNum},#{likes},#{videoUrl},#{info},#{block},#{subClass})
+    </insert>
+
+    <update id="addLikes" >
+        update Video set likes=likes+1 where id=#{id}
+    </update>
+
+    <update id="addPlayNum" >
+        update Video set playNum=playNum+1 where id=#{id}
+    </update>
+
+    <update id="addCommentNum" >
+        update Video set commentNum=commentNum+1 where id=#{id}
+    </update>
+
+    <select id="getVideoById" resultMap="Video">
+        select * from Video where id=#{id}
+    </select>
+
+    <select id="getHotVideoByBlock" resultMap="Video">
+        select * from Video where playNum>1000 and block=#{block} and subClass=#{subClass} order by playNum desc
+    </select>
+
+    <select id="getNewVideoByBlock" resultMap="Video">
+        select * from Video where createtime>20200101 and block=#{block} and subClass=#{subClass} order by createtime desc
+    </select>
+
+    <select id="getHotVideo" resultMap="Video">
+        select * from Video where playNum>8000 order by playNum desc
+    </select>
+
+    <select id="getNewVideo" resultMap="Video">
+        select * from Video where createtime>20200601 order by createtime desc
+    </select>
+
+    <select id="getVideoList" resultMap="Video">
+        select * from Video
+    </select>
+
+    <select id="getMyVideoList" resultMap="Video">
+        select * from Video where userid=#{userid}
+    </select>
+
+    <select id="getVideoAuthor" resultMap="Video">
+        select * from Video where id=#{id}
+    </select>
+
+    <resultMap id="Video" type="com.example.rickymysql.bean.Video">
+        <id column="id" property="id"></id>
+        <result column="userid" property="userid"></result>
+        <result column="createtime" property="createtime"></result>
+        <result column="title" property="title"></result>
+        <result column="coverImg" property="coverImg"></result>
+        <result column="playNum" property="playNum"></result>
+        <result column="commentNum" property="commentNum"></result>
+        <result column="likes" property="likes"></result>
+        <result column="videoUrl" property="videoUrl"></result>
+        <result column="info" property="info"></result>
+        <result column="block" property="block"></result>
+        <result column="subClass" property="subClass"></result>
+    </resultMap>
+
+</mapper>
